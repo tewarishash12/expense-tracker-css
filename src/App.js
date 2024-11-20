@@ -6,19 +6,7 @@ import ExpenseListPage from './pages/ExpenseListPage';
 
 
 function App() {
-  // const [expenses, setExpenses] = useState([]);
-  // const handleSaveExpense = (expense) => {
-  //   setExpenses([...expenses, expense]);
-  // };
-
-  // const handleDeleteExpense = (index) => {
-  //   const updatedExpenses = [...expenses];
-  //   updatedExpenses.splice(index, 1);
-  //   setExpenses(updatedExpenses);
-  // };
-
-
-
+  const [editIndex, setEditIndex] = useState(-1);
   return (
     <BrowserRouter>
       <div className="App">
@@ -27,8 +15,8 @@ function App() {
           <NavLink to="expenses">View Expenses</NavLink>
         </nav>
         <Routes>
-          <Route path='' element={<ExpenseFormPage />}></Route>
-          <Route path='expenses' element={<ExpenseListPage />}></Route>
+          <Route path='' element={<ExpenseFormPage editIndex={editIndex} />}></Route>
+          <Route path='expenses' element={<ExpenseListPage setEditIndex={setEditIndex} />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

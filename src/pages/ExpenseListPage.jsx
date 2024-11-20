@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import ExpenseList from '../components/ExpenseList';
+import { useNavigate } from 'react-router-dom';
 
 function useForceUpdate(){
     const [,setValue] = useState(0);
     return () => setValue(value => value + 1);
 }
 
-const ExpenseListPage = () => {
+const ExpenseListPage = ({ setEditIndex }) => {
+    const navigate = useNavigate()
     const forceUpdate = useForceUpdate();
 
     const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
@@ -16,12 +18,18 @@ const ExpenseListPage = () => {
         expenses.splice(ind, 1);
         const updatedExpensesString = JSON.stringify(expenses);
         localStorage.setItem('expenses_data_key', updatedExpensesString);
-        forceUpdate()
+        forceUpdate();
     };
+
+    const handleEditExpense = (ind) => {
+        setEditIndex(ind);
+        navigate('/');
+    };
+
     return (
         <>
             <h1>Expense List</h1>
-            <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} />
+            <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense} />
         </>
     );
 };
