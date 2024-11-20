@@ -1,8 +1,12 @@
 import React from 'react';
+import ExpenseForm from '../components/ExpenseForm';
 
-const ExpenseFormPage = () => {
+const ExpenseFormPage = ({ handleSaveExpense }) => {
   return (
-    <div>Expense Form Page</div>
+    <>
+        <h1>Daily Expense Tracker</h1>
+        <ExpenseForm onSaveExpense={handleSaveExpense} />
+    </>
   );
 };
 

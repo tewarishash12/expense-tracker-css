@@ -1,8 +1,12 @@
 import React from 'react';
+import ExpenseList from '../components/ExpenseList';
 
-const ExpenseListPage = () => {
+const ExpenseListPage = ({ expenses, handleDeleteExpense }) => {
   return (
-    <div>Expense List Page</div>
+    <>
+        <h1>Expense List</h1>
+        <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} />
+    </>
   );
 };
 

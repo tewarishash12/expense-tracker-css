@@ -1,8 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import ExpenseForm from './components/ExpenseForm';
-import ExpenseList from './components/ExpenseList';
 import ExpenseFormPage from './pages/ExpenseFormPage';
 import ExpenseListPage from './pages/ExpenseListPage';
 
@@ -27,14 +25,9 @@ function App() {
           <NavLink to="expenses">View Expenses</NavLink>
         </nav>
         <Routes>
-          <Route path='' element={<ExpenseFormPage />}></Route>
-          <Route path='expenses' element={<ExpenseListPage />}></Route>
+          <Route path='' element={<ExpenseFormPage handleSaveExpense={handleSaveExpense} />}></Route>
+          <Route path='expenses' element={<ExpenseListPage expenses={expenses} handleDeleteExpense={handleDeleteExpense} />}></Route>
         </Routes>
-        <h1>Daily Expense Tracker</h1>
-        <ExpenseForm onSaveExpense={handleSaveExpense} />
-        <br/>
-        <h1>Expense List</h1>
-        <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} />
       </div>
     </BrowserRouter>
   );
