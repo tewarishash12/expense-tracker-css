@@ -7,7 +7,7 @@ function useForceUpdate(){
     return () => setValue(value => value + 1);
 }
 
-const ExpenseListPage = ({ setEditIndex }) => {
+const ExpenseListPage = ({ setFormValues }) => {
     const navigate = useNavigate()
     const forceUpdate = useForceUpdate();
 
@@ -22,7 +22,8 @@ const ExpenseListPage = ({ setEditIndex }) => {
     };
 
     const handleEditExpense = (ind) => {
-        setEditIndex(ind);
+        const expense = expenses[ind];
+        setFormValues({...expense, index: ind});
         navigate('/');
     };
 
