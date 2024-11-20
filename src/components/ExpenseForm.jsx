@@ -1,4 +1,3 @@
-// src/components/ExpenseForm.tsx
 import React, { useState } from 'react';
 import { DateInput, AmountInput, TitleInput, CategoryInput, PaymentModeInput, RecurringInput, BeneficiaryInput, TagsInput } from './Inputs';
 

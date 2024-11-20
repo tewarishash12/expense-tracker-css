@@ -1,4 +1,3 @@
-// src/components/DateInput.tsx
 import React from 'react';
 
 export const DateInput = ({ value, onChange }) => {
