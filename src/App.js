@@ -18,6 +18,10 @@ function App() {
 
   return (
     <div className="App">
+      <div class="tab">
+        <button class="tablink">Add Expense</button>
+        <button class="tablink">View Expenses</button>
+      </div>
       <h1>Daily Expense Tracker</h1>
       <ExpenseForm onSaveExpense={handleSaveExpense} />
       <br/>
