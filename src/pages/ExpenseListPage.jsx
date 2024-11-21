@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import ExpenseList from '../components/ExpenseList';
 import { useNavigate } from 'react-router-dom';
+import { useFormValues } from '../context/FormContext';
 
 function useForceUpdate(){
     const [,setValue] = useState(0);
     return () => setValue(value => value + 1);
 }
 
-const ExpenseListPage = ({ setFormValues }) => {
+const ExpenseListPage = () => {
     const navigate = useNavigate()
     const forceUpdate = useForceUpdate();
+    const { setFormValues } = useFormValues()
 
     const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
     const expenses = JSON.parse(expensesDataString)
@@ -23,7 +25,7 @@ const ExpenseListPage = ({ setFormValues }) => {
 
     const handleEditExpense = (ind) => {
         const expense = expenses[ind];
-        setFormValues({...expense, index: ind});
+        setFormValues({...expense, tags: expense.tags?.join(','), index: ind});
         navigate('/');
     };
 

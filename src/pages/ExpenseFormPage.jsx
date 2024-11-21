@@ -1,11 +1,13 @@
 import React from 'react';
 import ExpenseForm from '../components/ExpenseForm';
 import { useNavigate } from 'react-router-dom';
+import { useFormValues } from '../context/FormContext';
 
-const ExpenseFormPage = ({ formValues, setFormValue, resetFormValues }) => {
+const ExpenseFormPage = () => {
     const navigate = useNavigate();
     const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
     const expenses = JSON.parse(expensesDataString)
+    const { formValues, setFormValue, resetFormValues } = useFormValues()
 
     const handleSaveExpense = (expense, ind) => {
         if (ind !== undefined) {
