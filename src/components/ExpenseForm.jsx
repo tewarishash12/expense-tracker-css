@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DateInput, AmountInput, TitleInput, CategoryInput, PaymentModeInput, RecurringInput, BeneficiaryInput, TagsInput } from './Inputs';
 
 const EmptyExpense = {
@@ -17,6 +17,8 @@ const ExpenseForm = ({ onSaveExpense, editIndex }) => {
   const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
   const expenses = JSON.parse(expensesDataString);
   const prefilledExpense = editIndex > -1 ? expenses[editIndex] : EmptyExpense;
+  prefilledExpense.tags = prefilledExpense.tags.join ? prefilledExpense.tags.join(',') : prefilledExpense.tags;
+  prefilledExpense.newCategory = '';
   const [date, setDate] = useState(prefilledExpense.date);
   const [amount, setAmount] = useState(prefilledExpense.amount);
   const [title, setTitle] = useState(prefilledExpense.title);
@@ -26,20 +28,6 @@ const ExpenseForm = ({ onSaveExpense, editIndex }) => {
   const [recurring, setRecurring] = useState(prefilledExpense.recurring);
   const [beneficiary, setBeneficiary] = useState(prefilledExpense.beneficiary);
   const [tags, setTags] = useState(prefilledExpense.tags);
-
-  useEffect(() => {
-    if (editIndex > -1) {
-      setDate(prefilledExpense.date);
-      setAmount(prefilledExpense.amount);
-      setTitle(prefilledExpense.title);
-      setCategory(prefilledExpense.category);
-      setNewCategory('');
-      setPaymentMode(prefilledExpense.paymentMode);
-      setRecurring(prefilledExpense.recurring);
-      setBeneficiary(prefilledExpense.beneficiary);
-      setTags(prefilledExpense.tags);
-    }
-  }, [editIndex]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
