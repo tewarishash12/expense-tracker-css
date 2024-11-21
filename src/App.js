@@ -15,7 +15,7 @@ function App() {
           <NavLink to="expenses">View Expenses</NavLink>
         </nav>
         <Routes>
-          <Route path='' element={<ExpenseFormPage editIndex={editIndex} />}></Route>
+          <Route path='' element={<ExpenseFormPage editIndex={editIndex} setEditIndex={setEditIndex} />}></Route>
           <Route path='expenses' element={<ExpenseListPage setEditIndex={setEditIndex} />}></Route>
         </Routes>
       </div>
