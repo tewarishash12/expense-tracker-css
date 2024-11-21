@@ -1,22 +1,15 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import ExpenseFormPage from './pages/ExpenseFormPage';
 import ExpenseListPage from './pages/ExpenseListPage';
-import FormContext from './context/FormContext';
+import { FormValuesProvider } from './context/FormContext';
 
 
 function App() {
-  const [formValues, setFormValues] = useState({});
-  const setFormValue = (value, key) => {
-    setFormValues(currentFormValues => ({...currentFormValues, [key]: value }));
-  };
-  const resetFormValues = () => {
-    setFormValues({});
-  };
   return (
     <BrowserRouter>
-      <FormContext.Provider value={{ formValues, setFormValue, resetFormValues, setFormValues }}>
+      <FormValuesProvider>
         <div className="App">
           <nav class="tab">
             <NavLink to="">Add Expense</NavLink>
@@ -27,7 +20,7 @@ function App() {
             <Route path='expenses' element={<ExpenseListPage />}></Route>
           </Routes>
         </div>
-      </FormContext.Provider>
+      </FormValuesProvider>
     </BrowserRouter>
   );
 }
