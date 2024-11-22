@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { DateInput, AmountInput, TitleInput, CategoryInput, PaymentModeInput, RecurringInput, BeneficiaryInput, TagsInput } from './Inputs';
+import { getExpenses } from '../service/localStorage';
 
 const EmptyExpense = {
   date: new Date().toISOString().split('T')[0],
@@ -14,10 +15,9 @@ const EmptyExpense = {
 };
 
 const ExpenseForm = ({ onSaveExpense, editIndex }) => {
-  const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
-  const expenses = JSON.parse(expensesDataString);
+  const expenses = getExpenses();
   const prefilledExpense = editIndex > -1 ? expenses[editIndex] : EmptyExpense;
-  prefilledExpense.tags = prefilledExpense.tags.join ? prefilledExpense.tags.join(',') : prefilledExpense.tags;
+  prefilledExpense.tags = prefilledExpense.tags?.join ? prefilledExpense.tags.join(',') : prefilledExpense.tags;
   prefilledExpense.newCategory = '';
   const [date, setDate] = useState(prefilledExpense.date);
   const [amount, setAmount] = useState(prefilledExpense.amount);

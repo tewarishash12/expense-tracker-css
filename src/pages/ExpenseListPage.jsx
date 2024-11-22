@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ExpenseList from '../components/ExpenseList';
 import { useNavigate } from 'react-router-dom';
+import { getExpenses, setExpenses } from '../service/localStorage';
 
 function useForceUpdate(){
     const [,setValue] = useState(0);
@@ -8,16 +9,13 @@ function useForceUpdate(){
 }
 
 const ExpenseListPage = ({ setEditIndex }) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const forceUpdate = useForceUpdate();
-
-    const expensesDataString = localStorage.getItem('expenses_data_key') || '[]';
-    const expenses = JSON.parse(expensesDataString)
+    const expenses = getExpenses();
 
     const handleDeleteExpense = (ind) => {
         expenses.splice(ind, 1);
-        const updatedExpensesString = JSON.stringify(expenses);
-        localStorage.setItem('expenses_data_key', updatedExpensesString);
+        setExpenses(expenses);
         forceUpdate();
     };
 
