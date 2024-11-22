@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DateInput, AmountInput, TitleInput, CategoryInput, PaymentModeInput, RecurringInput, BeneficiaryInput, TagsInput } from './Inputs';
 import { getExpenses } from '../service/localStorage';
 
-const EmptyExpense = {
+const emptyForm = () => ({
   date: new Date().toISOString().split('T')[0],
   amount: '',
   title: '',
@@ -12,38 +12,47 @@ const EmptyExpense = {
   recurring: false,
   beneficiary: 'Self',
   tags: '',
-};
+});
+
+function formValuesFromLocalStorage(ind) {
+  const expenses = getExpenses();
+  const expense = expenses[ind];
+  const formValues = {
+    ...expense,
+    newCategory: '',  // TODO: fix later
+    tags: expense.tags?.join ? expense.tags.join(',') : expense.tags,
+  };
+  return formValues;
+}
 
 const ExpenseForm = ({ onSaveExpense, editIndex }) => {
-  const expenses = getExpenses();
-  const prefilledExpense = editIndex > -1 ? expenses[editIndex] : EmptyExpense;
-  prefilledExpense.tags = prefilledExpense.tags?.join ? prefilledExpense.tags.join(',') : prefilledExpense.tags;
-  prefilledExpense.newCategory = '';
-  const [date, setDate] = useState(prefilledExpense.date);
-  const [amount, setAmount] = useState(prefilledExpense.amount);
-  const [title, setTitle] = useState(prefilledExpense.title);
-  const [category, setCategory] = useState(prefilledExpense.category);
-  const [newCategory, setNewCategory] = useState(prefilledExpense.newCategory);
-  const [paymentMode, setPaymentMode] = useState(prefilledExpense.paymentMode);
-  const [recurring, setRecurring] = useState(prefilledExpense.recurring);
-  const [beneficiary, setBeneficiary] = useState(prefilledExpense.beneficiary);
-  const [tags, setTags] = useState(prefilledExpense.tags);
+  const prefilledForm = editIndex > -1 ? formValuesFromLocalStorage(editIndex) : emptyForm();
+  const [formValues, setFormValues] = useState(prefilledForm);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const finalCategory = category || newCategory;
-    onSaveExpense({ date, amount: +amount, title, category: finalCategory, paymentMode, recurring, beneficiary, tags: tags?.split(',') }, editIndex);
-
-    setDate(EmptyExpense.date);
-    setAmount(EmptyExpense.amount);
-    setTitle(EmptyExpense.title);
-    setCategory(EmptyExpense.category);
-    setNewCategory(EmptyExpense.newCategory);
-    setPaymentMode(EmptyExpense.paymentMode);
-    setRecurring(EmptyExpense.recurring);
-    setBeneficiary(EmptyExpense.beneficiary);
-    setTags(EmptyExpense.tags);
+    const expense = {
+      ...formValues,
+      amount: +formValues.amount,
+      category: formValues.category || formValues.newCategory,
+      newCategory: undefined,
+      tags: formValues.tags?.split(','),
+    };
+    onSaveExpense(expense, editIndex);
+    setFormValues(emptyForm());
   };
+
+  const [date, setDate] = [formValues.date, (val) => setFormValues((state) => ({...state, date: val}))]
+  const [amount, setAmount] = [formValues.amount, (val) => setFormValues((state) => ({...state, amount: val}))]
+  const [title, setTitle] = [formValues.title, (val) => setFormValues((state) => ({...state, title: val}))]
+  const [category, setCategory] = [formValues.category, (val) => setFormValues((state) => ({...state, category: val}))]
+  const [newCategory, setNewCategory] = [formValues.newCategory, (val) => setFormValues((state) => ({...state, newCategory: val}))]
+  const [paymentMode, setPaymentMode] = [formValues.paymentMode, (val) => setFormValues((state) => ({...state, paymentMode: val}))]
+  const [recurring, setRecurring] = [formValues.recurring, (val) => setFormValues((state) => ({...state, recurring: val}))]
+  const [beneficiary, setBeneficiary] = [formValues.beneficiary, (val) => setFormValues((state) => ({...state, beneficiary: val}))]
+  const [tags, setTags] = [formValues.tags, (val) => setFormValues((state) => ({...state, tags: val}))]
+
+  const submitButtonText = editIndex > -1 ? "Edit Expense" : "Add Expense";
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,7 +64,7 @@ const ExpenseForm = ({ onSaveExpense, editIndex }) => {
       <RecurringInput value={recurring} onChange={setRecurring} />
       <BeneficiaryInput selectedBeneficiary={beneficiary} onChange={setBeneficiary} />
       <TagsInput value={tags} onChange={setTags} />
-      { editIndex > -1 ? (<button type="submit">Edit Expense</button>) : (<button type="submit">Add Expense</button>) }
+      <button type="submit">{submitButtonText}</button>
     </form>
   );
 };
