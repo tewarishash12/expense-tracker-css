@@ -8,5 +8,5 @@ export function getExpenses() {
 
 export function setExpenses(expenses) {
     const updatedExpensesString = JSON.stringify(expenses);
-    localStorage.setItem('expenses_data_key', updatedExpensesString);
+    localStorage.setItem(EXPENSES_DATA_KEY, updatedExpensesString);
 }
