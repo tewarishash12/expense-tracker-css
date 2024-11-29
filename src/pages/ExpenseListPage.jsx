@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ExpenseList from '../components/ExpenseList';
 import { useNavigate } from 'react-router-dom';
-import { getExpenses, setExpenses } from '../service/localStorage';
 
-function useForceUpdate(){
-    const [,setValue] = useState(0);
-    return () => setValue(value => value + 1);
-}
-
-const ExpenseListPage = ({ setEditIndex }) => {
+const ExpenseListPage = ({ setEditIndex, expenses, setExpenses }) => {
     const navigate = useNavigate();
-    const forceUpdate = useForceUpdate();
-    const expenses = getExpenses();
 
     const handleDeleteExpense = (ind) => {
-        expenses.splice(ind, 1);
-        setExpenses(expenses);
-        forceUpdate();
+        const updatedExpenses = expenses.filter((_,index) => index !== ind);
+        setExpenses(updatedExpenses);
     };
 
     const handleEditExpense = (ind) => {
