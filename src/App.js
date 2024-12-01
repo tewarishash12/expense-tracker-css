@@ -9,7 +9,7 @@ import expenseReducer from './reducers/expenseReducer';
 
 function App() {
   const [editIndex, setEditIndex] = useState(-1);
-  const [expenses, dispatchExpenseAction] = useReducer(expenseReducer, []);
+  const [expenses, dispatchExpenseAction] = useReducer(expenseReducer, null);
   useEffect(() => {
     getExpensesFromBackend().then(expensesVal => {
       dispatchExpenseAction({
@@ -20,6 +20,9 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (expenses === null) {
+      return; // data not loaded from the backend yet
+    }
     setExpensesInBackend(expenses).then(() => console.log("Saved expenses successfully!"));
   }, [expenses]);
 

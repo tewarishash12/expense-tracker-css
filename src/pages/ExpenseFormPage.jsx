@@ -22,7 +22,7 @@ const ExpenseFormPage = ({ editIndex, setEditIndex, expenses, dispatchExpenseAct
     return (
         <>
             <h1>Daily Expense Tracker</h1>
-            <ExpenseForm onSaveExpense={handleSaveExpense} editIndex={editIndex} key={editIndex} expenses={expenses} />
+            <ExpenseForm onSaveExpense={handleSaveExpense} editIndex={editIndex} key={editIndex} expenses={expenses || []} />
         </>
     );
 };

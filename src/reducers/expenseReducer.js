@@ -1,20 +1,24 @@
 export default function expenseReducer(state, action) {
     switch (action.type) {
         case "EDIT": {
+            if (isInvalidState(state, action))  return state;
             const { ind, expense } = action.payload;
             const updatedState = [...state];
             updatedState[ind] = expense;
             return updatedState;
         }
         case "ADD": {
+            if (isInvalidState(state, action))  return state;
             const { expense } = action.payload;
             return [...state, expense];
         }
         case "DELETE": {
+            if (isInvalidState(state, action))  return state;
             const { ind } = action.payload;
             return state.filter((_, index) => ind !== index);
         }
         case "REFILL": {
+            // Invalid state will become valid by this action
             const { expenses } = action.payload;
             return expenses;
         }
@@ -22,4 +26,12 @@ export default function expenseReducer(state, action) {
             return state;
         }
     }
+}
+
+const isInvalidState = (state, action) => {
+    if (state === null) {
+        console.warn(action.type, " is unsupported. Data not loaded from backend yet!");
+        return true;
+    }
+    return false;
 }

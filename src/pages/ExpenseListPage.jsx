@@ -20,7 +20,7 @@ const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
     return (
         <>
             <h1>Expense List</h1>
-            <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense} />
+            <ExpenseList expenses={expenses || []} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense} />
         </>
     );
 };
