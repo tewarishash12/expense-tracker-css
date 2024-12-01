@@ -2,17 +2,19 @@ import React from 'react';
 import ExpenseForm from '../components/ExpenseForm';
 import { useNavigate } from 'react-router-dom';
 
-const ExpenseFormPage = ({ editIndex, setEditIndex, expenses, setExpenses }) => {
+const ExpenseFormPage = ({ editIndex, setEditIndex, expenses, dispatchExpenseAction }) => {
     const navigate = useNavigate();
 
     const handleSaveExpense = (expense, ind) => {
-        const updatedExpenses = [...expenses];
+        const action = {}
         if (ind > -1) {
-            updatedExpenses[ind] = expense;
+            action.type = "EDIT";
+            action.payload = { ind, expense };
         } else {
-            updatedExpenses.push(expense);
+            action.type = "ADD";
+            action.payload = { expense };
         }
-        setExpenses(updatedExpenses);
+        dispatchExpenseAction(action);
         setEditIndex(-1);
         navigate('/expenses')
     };

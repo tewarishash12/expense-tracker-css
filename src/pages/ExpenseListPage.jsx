@@ -2,12 +2,14 @@ import React from 'react';
 import ExpenseList from '../components/ExpenseList';
 import { useNavigate } from 'react-router-dom';
 
-const ExpenseListPage = ({ setEditIndex, expenses, setExpenses }) => {
+const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
     const navigate = useNavigate();
 
     const handleDeleteExpense = (ind) => {
-        const updatedExpenses = expenses.filter((_,index) => index !== ind);
-        setExpenses(updatedExpenses);
+        dispatchExpenseAction({
+            type: "DELETE",
+            payload: { ind },
+        });
     };
 
     const handleEditExpense = (ind) => {
