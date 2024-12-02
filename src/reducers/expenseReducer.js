@@ -17,8 +17,11 @@ export default function expenseReducer(state, action) {
             const { ind } = action.payload;
             return state.filter((_, index) => ind !== index);
         }
-        case "REFILL": {
-            // Invalid state will become valid by this action
+        case "FILL": {
+            if (state !== null) {
+                console.error(action.type, " is unsupported. Data already loaded from backend.");
+                return state;
+            }
             const { expenses } = action.payload;
             return expenses;
         }

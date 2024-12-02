@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     getExpensesFromBackend().then(expensesVal => {
       dispatchExpenseAction({
-        type: "REFILL",
+        type: "FILL",
         payload: { expenses: expensesVal },
       });
     });
