@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExpenseTable from '../components/ExpenseTable';
 import ExpenseCards from '../components/ExpenseCards';
+// import Categories from "../service/Categories"
 
 const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
     const [isTableView, setIsTableView] = useState(false);
@@ -41,7 +42,7 @@ const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
                     className="px-4 py-2 border rounded-md"
                 >
                     <option value="All">All</option>
-                    <option value="Entertainment">Entertainment</option>
+                    
                     <option value="Food">Food</option>
                     <option value="Groceries">Groceries</option>
                     <option value="Gift">Gift</option>
