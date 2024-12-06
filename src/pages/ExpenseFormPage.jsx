@@ -20,10 +20,18 @@ const ExpenseFormPage = ({ editIndex, setEditIndex, expenses, dispatchExpenseAct
     };
 
     return (
-        <>
-            <h1>Daily Expense Tracker</h1>
-            <ExpenseForm onSaveExpense={handleSaveExpense} editIndex={editIndex} key={editIndex} expenses={expenses || []} />
-        </>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-purple-900 to-black px-4">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <h1 className="text-3xl font-semibold text-center mb-6 text-purple-700">Daily Expense Tracker</h1>
+                <ExpenseForm
+                    onSaveExpense={handleSaveExpense}
+                    editIndex={editIndex}
+                    key={editIndex}
+                    expenses={expenses || []}
+                />
+            </div>
+        </div>
+
     );
 };
 

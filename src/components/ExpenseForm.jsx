@@ -40,29 +40,45 @@ const ExpenseForm = ({ onSaveExpense, editIndex, expenses }) => {
     setFormValues(emptyForm());
   };
 
-  const [date, setDate] = [formValues.date, (val) => setFormValues((state) => ({...state, date: val}))]
-  const [amount, setAmount] = [formValues.amount, (val) => setFormValues((state) => ({...state, amount: val}))]
-  const [title, setTitle] = [formValues.title, (val) => setFormValues((state) => ({...state, title: val}))]
-  const [category, setCategory] = [formValues.category, (val) => setFormValues((state) => ({...state, category: val}))]
-  const [newCategory, setNewCategory] = [formValues.newCategory, (val) => setFormValues((state) => ({...state, newCategory: val}))]
-  const [paymentMode, setPaymentMode] = [formValues.paymentMode, (val) => setFormValues((state) => ({...state, paymentMode: val}))]
-  const [recurring, setRecurring] = [formValues.recurring, (val) => setFormValues((state) => ({...state, recurring: val}))]
-  const [beneficiary, setBeneficiary] = [formValues.beneficiary, (val) => setFormValues((state) => ({...state, beneficiary: val}))]
-  const [tags, setTags] = [formValues.tags, (val) => setFormValues((state) => ({...state, tags: val}))]
+  const [date, setDate] = [formValues.date, (val) => setFormValues((state) => ({ ...state, date: val }))]
+  const [amount, setAmount] = [formValues.amount, (val) => setFormValues((state) => ({ ...state, amount: val }))]
+  const [title, setTitle] = [formValues.title, (val) => setFormValues((state) => ({ ...state, title: val }))]
+  const [category, setCategory] = [formValues.category, (val) => setFormValues((state) => ({ ...state, category: val }))]
+  const [newCategory, setNewCategory] = [formValues.newCategory, (val) => setFormValues((state) => ({ ...state, newCategory: val }))]
+  const [paymentMode, setPaymentMode] = [formValues.paymentMode, (val) => setFormValues((state) => ({ ...state, paymentMode: val }))]
+  const [recurring, setRecurring] = [formValues.recurring, (val) => setFormValues((state) => ({ ...state, recurring: val }))]
+  const [beneficiary, setBeneficiary] = [formValues.beneficiary, (val) => setFormValues((state) => ({ ...state, beneficiary: val }))]
+  const [tags, setTags] = [formValues.tags, (val) => setFormValues((state) => ({ ...state, tags: val }))]
 
   const submitButtonText = editIndex > -1 ? "Edit Expense" : "Add Expense";
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-5 max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md"
+    >
       <DateInput value={date} onChange={setDate} />
       <AmountInput value={amount} onChange={setAmount} />
       <TitleInput value={title} onChange={setTitle} />
-      <CategoryInput selectedCategory={category} onChange={setCategory} newCategory={newCategory} onNewCategoryChange={setNewCategory} />
+      <CategoryInput
+        selectedCategory={category}
+        onChange={setCategory}
+        newCategory={newCategory}
+        onNewCategoryChange={setNewCategory}
+      />
       <PaymentModeInput selectedMode={paymentMode} onChange={setPaymentMode} />
       <RecurringInput value={recurring} onChange={setRecurring} />
-      <BeneficiaryInput selectedBeneficiary={beneficiary} onChange={setBeneficiary} />
+      <BeneficiaryInput
+        selectedBeneficiary={beneficiary}
+        onChange={setBeneficiary}
+      />
       <TagsInput value={tags} onChange={setTags} />
-      <button type="submit">{submitButtonText}</button>
+      <button
+        type="submit"
+        className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-medium transition duration-200"
+      >
+        {submitButtonText}
+      </button>
     </form>
   );
 };
