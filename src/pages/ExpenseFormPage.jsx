@@ -20,7 +20,7 @@ const ExpenseFormPage = ({ editIndex, setEditIndex, expenses, dispatchExpenseAct
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-purple-900 to-black px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 via-purple-700 to-purple-900 px-4">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-3xl font-semibold text-center mb-6 text-purple-700">Daily Expense Tracker</h1>
                 <ExpenseForm

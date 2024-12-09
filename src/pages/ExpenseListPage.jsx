@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExpenseTable from '../components/ExpenseTable';
 import ExpenseCards from '../components/ExpenseCards';
-// import Categories from "../service/Categories"
+import { category } from "../service/Categories"
 
-const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
-    const [isTableView, setIsTableView] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState("All");
+const ExpenseListPage = ({ isTableView, setIsTableView, setEditIndex, expenses, dispatchExpenseAction }) => {
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const navigate = useNavigate();
 
@@ -22,77 +21,113 @@ const ExpenseListPage = ({ setEditIndex, expenses, dispatchExpenseAction }) => {
         navigate('/');
     };
 
+    const handleCategoryChange = (category) => {
+        setSelectedCategories((prevSelected) =>
+            prevSelected.includes(category)
+                ? prevSelected.filter((cat) => cat !== category) 
+                : [...prevSelected, category] 
+        );
+    };
+
     const filteredExpenses =
-        selectedCategory === "All"
-            ? expenses
-            : expenses.filter((expense) => expense.category === selectedCategory);
+        selectedCategories.length === 0
+            ? expenses 
+            : expenses.filter((expense) => selectedCategories.includes(expense.category));
 
+    const selectAllCategories = () => {
+        setSelectedCategories(category);
+    };
+
+    const clearAllCategories = () => {
+        setSelectedCategories([]);
+    };
     return (
-        <div className="p-6 bg-gray-100">
-            <h1 className="text-2xl font-bold text-center mb-4">Expense List</h1>
+        <div className="p-6 bg-gradient-to-b from-purple-500 to-purple-800 min-h-screen text-white">
+            <h1 className="text-3xl font-extrabold text-center mb-6">Expense List</h1>
 
-            <div className="flex justify-center mb-6">
-                <label htmlFor="category" className="mr-2 text-lg font-medium">
-                    Filter by Category:
-                </label>
-                <select
-                    id="category"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-4 py-2 border rounded-md"
-                >
-                    <option value="All">All</option>
-                    
-                    <option value="Food">Food</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Gift">Gift</option>
-                    <option value="Apparel">Apparel</option>
-                    <option value="Self Care">Self Care</option>
-                    <option value="Donation">Donation</option>
-                    <option value="Capital Expense">Capital Expense</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Repair">Repair</option>
-                    <option value="Medical">Medical</option>
-                    <option value="Miscellaneous">Miscellaneous</option>
-                    <option value="Petrol">Petrol</option>
-                </select>
+            {/* Filter Section */}
+            <div className="mb-6">
+                <h2 className="text-center text-xl font-semibold mb-4">
+                    Filter by Category
+                </h2>
+
+                {/* Select All / Clear All Buttons */}
+                <div className="flex justify-center mb-4 gap-4">
+                    <button
+                        onClick={selectAllCategories}
+                        className="px-4 py-2 bg-green-400 hover:bg-green-500 text-purple-900 font-semibold rounded-md shadow-md"
+                    >
+                        Select All
+                    </button>
+                    <button
+                        onClick={clearAllCategories}
+                        className="px-4 py-2 bg-red-400 hover:bg-red-500 text-purple-900 font-semibold rounded-md shadow-md"
+                    >
+                        Clear All
+                    </button>
+                </div>
+
+                {/* Category Checkbox List */}
+                <div className="flex flex-wrap justify-center gap-4">
+                    {category.map((cat) => (
+                        <div key={cat} className="flex items-center text-lg">
+                            <input
+                                type="checkbox"
+                                id={cat}
+                                checked={selectedCategories.includes(cat)}
+                                onChange={() => handleCategoryChange(cat)}
+                                className="mr-2 text-purple-600"
+                            />
+                            <label htmlFor={cat} className="font-medium">
+                                {cat}
+                            </label>
+                        </div>
+                    ))}
+                </div>
+
+                <p className="text-center mt-4 text-sm">
+                    {selectedCategories.length > 0
+                        ? `${selectedCategories.length} categories selected`
+                        : 'No categories selected, showing all expenses'}
+                </p>
             </div>
 
-            {/* Toggle Button */}
-            <div className="flex justify-center mb-6">
+            {/* Toggle View Buttons */}
+            <div className="flex justify-center mb-6 gap-4">
                 <button
                     onClick={() => setIsTableView(true)}
-                    className={`px-4 py-2 mr-2 text-white rounded-md ${isTableView ? "bg-blue-500" : "bg-gray-400"
+                    className={`px-4 py-2 font-bold rounded-md shadow-md ${isTableView
+                            ? 'bg-purple-500 hover:bg-purple-600'
+                            : 'bg-gray-400 hover:bg-gray-500'
                         }`}
                 >
                     Table View
                 </button>
                 <button
                     onClick={() => setIsTableView(false)}
-                    className={`px-4 py-2 text-white rounded-md ${!isTableView ? "bg-blue-500" : "bg-gray-400"
+                    className={`px-4 py-2 font-bold rounded-md shadow-md ${!isTableView
+                            ? 'bg-purple-500 hover:bg-purple-600'
+                            : 'bg-gray-400 hover:bg-gray-500'
                         }`}
                 >
                     Card View
                 </button>
             </div>
 
+            {/* Table or Card View */}
             {isTableView ? (
                 <ExpenseTable
                     expenses={filteredExpenses || []}
                     onDeleteExpense={handleDeleteExpense}
                     onEditExpense={handleEditExpense}
                 />
-            ) :
-                (
-                    <ExpenseCards
-                        expenses={filteredExpenses || []}
-                        onDeleteExpense={handleDeleteExpense}
-                        onEditExpense={handleEditExpense}
-                    />
-                )
-            }
-
-
+            ) : (
+                <ExpenseCards
+                    expenses={filteredExpenses || []}
+                    onDeleteExpense={handleDeleteExpense}
+                    onEditExpense={handleEditExpense}
+                />
+            )}
         </div>
     );
 };
